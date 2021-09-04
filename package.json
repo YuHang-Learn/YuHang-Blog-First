@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@toast-ui/vue-editor": "^3.0.3",
+    "axios": "^0.21.1",
     "core-js": "^3.6.5",
     "element-ui": "^2.15.5",
     "vue": "^2.6.11",

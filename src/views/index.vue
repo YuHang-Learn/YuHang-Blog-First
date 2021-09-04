@@ -28,10 +28,16 @@
 
 <script>
 import ListItem from '@/components/ListItem.vue'
+import { getArticleList } from '@/api/article.js'
 export default {
   name: 'Index',
   components: {
     ListItem
+  },
+  created () {
+    getArticleList().then(res => {
+      console.log(res)
+    })
   },
   computed: {
     nowDate () {
