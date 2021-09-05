@@ -1,13 +1,13 @@
 <template>
-  <el-dropdown>
+  <el-dropdown @command="categoryItemChange" trigger="click">
     <span class="el-dropdown-link text">
-      文章分类<i class="el-icon-arrow-down el-icon--right"></i>
+      <i class="el-icon-arrow-down el-icon--right"></i>
     </span>
     <el-dropdown-menu slot="dropdown">
-      <el-dropdown-item>全部</el-dropdown-item>
       <el-dropdown-item
         v-for="(item, index) in categoryList"
         :key="index"
+        :command="item"
       >
       {{item}}
       </el-dropdown-item>
@@ -31,7 +31,11 @@ export default {
     getCategoryList () {
       getCategoryList().then(res => {
         this.categoryList = res.data
+        this.categoryList.unshift('全部')
       })
+    },
+    categoryItemChange (val) {
+      this.$store.commit('changeCategory', val)
     }
   }
 }

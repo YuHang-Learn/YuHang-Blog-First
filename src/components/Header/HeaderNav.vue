@@ -1,6 +1,6 @@
 <template>
   <el-menu
-    default-active="/"
+    :default-active="$route.path"
     class="el-menu-demo"
     mode="horizontal"
     background-color="#fff"
@@ -12,6 +12,7 @@
     <el-menu-item index="/">首页</el-menu-item>
     <el-menu-item index="/recommend">推荐</el-menu-item>
     <el-menu-item index="/category">
+      文章分类
       <category-list></category-list>
     </el-menu-item>
     <el-menu-item index="/personal" @click="pushWrite">写作中心</el-menu-item>

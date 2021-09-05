@@ -1,8 +1,11 @@
 import { request } from '@/utils/request'
 
-export function getArticleList () {
+export function getArticleList (val = '全部') {
   return request({
     url: '/articleList',
-    method: 'GET'
+    method: 'GET',
+    params: {
+      val
+    }
   })
 }

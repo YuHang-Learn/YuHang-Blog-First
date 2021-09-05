@@ -6,17 +6,11 @@
         <div class="before_content">以下是我个人的精选内容</div>
       </div>
       <div class="left_content">
-        <list-item></list-item>
-        <list-item></list-item>
-        <list-item></list-item>
-        <list-item></list-item>
-        <list-item></list-item>
-        <list-item></list-item>
-        <list-item></list-item>
-        <list-item></list-item>
-        <list-item></list-item>
-        <list-item></list-item>
-        <list-item></list-item>
+        <list-item
+          v-for="(item, index) in articleList"
+          :key="index"
+          :articleData="item"
+        ></list-item>
       </div>
     </div>
     <div class="right">
@@ -36,8 +30,14 @@ export default {
   },
   created () {
     getArticleList().then(res => {
-      console.log(res)
+      this.articleList = res.data
+      console.log(this.articleList)
     })
+  },
+  data () {
+    return {
+      articleList: []
+    }
   },
   computed: {
     nowDate () {
@@ -45,6 +45,8 @@ export default {
       const month = date.getMonth() + 1
       return date.getFullYear() + '-' + month + '-' + date.getDate()
     }
+  },
+  methods: {
   }
 }
 </script>

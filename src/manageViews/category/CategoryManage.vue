@@ -10,23 +10,23 @@
         stripe
         style="width: 100%">
          <el-table-column
-          prop="articleId"
-          label="文章ID"
+          prop="article_title"
+          label="文章标题"
         />
         <el-table-column
-          prop="userId"
+          prop="user_id"
           label="用户ID"
         />
         <el-table-column
-          prop="classifyId"
+          prop="classify_id"
           label="分类ID"
         />
         <el-table-column
-          prop="classifyName"
+          prop="classify_name"
           label="文章分类"
         />
         <el-table-column
-          prop="classifyAlias"
+          prop="classify_alias"
           label="分类别名"
         />
         <el-table-column
@@ -39,9 +39,6 @@
       </el-table>
     </el-card>
     <el-pagination
-      @size-change="handleSizeChange"
-      @current-change="handleCurrentChange"
-      :current-page="currentPage4"
       :page-sizes="[100, 200, 300, 400]"
       :page-size="100"
       layout="total, prev, pager, next, jumper"
@@ -51,17 +48,23 @@
 </template>
 
 <script>
+import { getCategoryData } from '@/api/category'
 export default {
   name: 'CategoryManage',
   data () {
     return {
-      categoryData: [{
-        articleId: '1',
-        userId: '2',
-        classifyId: '3',
-        classifyName: '4',
-        classifyAlias: '5'
-      }]
+      categoryData: []
+    }
+  },
+  created () {
+    this.getCategoryData()
+  },
+  methods: {
+    getCategoryData () {
+      getCategoryData().then(res => {
+        console.log(res)
+        this.categoryData = res.data
+      })
     }
   }
 }

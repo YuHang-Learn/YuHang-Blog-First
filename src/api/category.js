@@ -6,3 +6,10 @@ export function getCategoryList () {
     method: 'GET'
   })
 }
+
+export function getCategoryData () {
+  return request({
+    url: '/categoryData',
+    method: 'GET'
+  })
+}

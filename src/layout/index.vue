@@ -35,6 +35,7 @@ export default {
   line-height: 49px;
   padding:0;
   opacity: .8;
+  z-index: 2;
 }
 
 .el-aside {
@@ -50,7 +51,6 @@ export default {
     width:100%;
     margin-top:60px;
     opacity: .8;
-    z-index: -1;
     .el-main {
       height: 100%;
       background-color: #f4f5f5;

@@ -8,13 +8,16 @@
       <el-form ref="filterForm" :model="filterForm" label-width="80px">
         <el-form-item label="文章分类">
           <el-select v-model="filterForm.category" placeholder="请选择文章分类">
-            <el-option label="前端" value="前端"></el-option>
-            <el-option label="后端" value="后端"></el-option>
+            <el-option
+             v-for="(item, index) in categoryList"
+             :key="index"
+             :label="item"
+             :value="item"
+            ></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="创建时间">
           <el-date-picker
-            v-model="value1"
             type="daterange"
             range-separator="至"
             start-placeholder="开始日期"
@@ -27,25 +30,29 @@
       </el-form>
     </el-card>
     <el-card class="card_footer">
-      <h4>查询得到n条数据</h4>
+      <h4>查询得到{{tableData.length}}条数据</h4>
       <el-table
         :data="tableData"
         stripe
         style="width: 100%">
          <el-table-column
-          prop="id"
+          prop="user_id"
           label="用户ID"
         />
         <el-table-column
-          prop="photo"
+          prop="article_photo"
           label="文章封面"
         />
         <el-table-column
-          prop="title"
+          prop="article_title"
           label="标题"
         />
         <el-table-column
-          prop="createDate"
+          prop="classify_name"
+          label="分类"
+        />
+        <el-table-column
+          prop="article_createTime"
           label="创建时间"
         />
         <el-table-column
@@ -59,9 +66,6 @@
       </el-table>
     </el-card>
      <el-pagination
-      @size-change="handleSizeChange"
-      @current-change="handleCurrentChange"
-      :current-page="currentPage4"
       :page-sizes="[100, 200, 300, 400]"
       :page-size="100"
       layout="total, prev, pager, next, jumper"
@@ -71,6 +75,8 @@
 </template>
 
 <script>
+import { getCategoryList } from '@/api/category'
+import { getArticleList } from '@/api/article'
 export default {
   name: 'ArticleManage',
   data () {
@@ -79,12 +85,24 @@ export default {
         category: '',
         date: ''
       },
-      tableData: [{
-        id: '1',
-        photo: '2',
-        title: '3',
-        createDate: '4'
-      }]
+      categoryList: [],
+      tableData: []
+    }
+  },
+  created () {
+    this.getCategoryList()
+    this.getArticleList()
+  },
+  methods: {
+    getCategoryList () {
+      getCategoryList().then(res => {
+        this.categoryList = res.data
+      })
+    },
+    getArticleList () {
+      getArticleList().then(res => {
+        this.tableData = res.data
+      })
     }
   }
 }
