@@ -29,10 +29,7 @@ export default {
     ListItem
   },
   created () {
-    getArticleList().then(res => {
-      this.articleList = res.data
-      console.log(this.articleList)
-    })
+    this.getArticleList()
   },
   data () {
     return {
@@ -47,6 +44,12 @@ export default {
     }
   },
   methods: {
+    getArticleList () {
+      getArticleList({}).then(res => {
+        this.articleList = res.data.data
+        console.log(this.articleList)
+      })
+    }
   }
 }
 </script>

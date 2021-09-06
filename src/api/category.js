@@ -7,9 +7,10 @@ export function getCategoryList () {
   })
 }
 
-export function getCategoryData () {
+export function getCategoryData ({ page, perPage }) {
   return request({
     url: '/categoryData',
-    method: 'GET'
+    method: 'GET',
+    params: { page, perPage }
   })
 }

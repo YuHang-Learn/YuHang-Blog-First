@@ -39,10 +39,11 @@
       </el-table>
     </el-card>
     <el-pagination
-      :page-sizes="[100, 200, 300, 400]"
-      :page-size="100"
+      :current-page="page"
+      @current-change="pageChange"
+      :page-size="10"
       layout="total, prev, pager, next, jumper"
-      :total="400">
+      :total="count">
     </el-pagination>
   </div>
 </template>
@@ -53,18 +54,24 @@ export default {
   name: 'CategoryManage',
   data () {
     return {
-      categoryData: []
+      categoryData: [],
+      page: 1,
+      perPage: 10,
+      count: 0
     }
   },
   created () {
     this.getCategoryData()
   },
   methods: {
-    getCategoryData () {
-      getCategoryData().then(res => {
-        console.log(res)
-        this.categoryData = res.data
+    getCategoryData (page = 1, perPage = 10) {
+      getCategoryData({ page, perPage }).then(res => {
+        this.categoryData = res.data.data
+        this.count = res.data.count
       })
+    },
+    pageChange (page) {
+      this.getCategoryData(page)
     }
   }
 }

@@ -35,8 +35,8 @@ export default {
   },
   methods: {
     getArticleCategoryData (val) {
-      getArticleList(val).then(res => {
-        this.articleData = res.data
+      getArticleList({ val }).then(res => {
+        this.articleData = res.data.data
       })
     }
   },

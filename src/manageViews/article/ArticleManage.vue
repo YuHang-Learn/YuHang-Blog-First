@@ -18,6 +18,7 @@
         </el-form-item>
         <el-form-item label="创建时间">
           <el-date-picker
+            v-model="filterForm.date"
             type="daterange"
             range-separator="至"
             start-placeholder="开始日期"
@@ -25,12 +26,12 @@
           </el-date-picker>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary">筛选</el-button>
+          <el-button type="primary" @click="filterSearch">筛选</el-button>
         </el-form-item>
       </el-form>
     </el-card>
     <el-card class="card_footer">
-      <h4>查询得到{{tableData.length}}条数据</h4>
+      <h4>查询得到{{count}}条数据</h4>
       <el-table
         :data="tableData"
         stripe
@@ -38,10 +39,12 @@
          <el-table-column
           prop="user_id"
           label="用户ID"
+          width="100px"
         />
         <el-table-column
           prop="article_photo"
           label="文章封面"
+          width="100px"
         />
         <el-table-column
           prop="article_title"
@@ -50,6 +53,7 @@
         <el-table-column
           prop="classify_name"
           label="分类"
+          width="100px"
         />
         <el-table-column
           prop="article_createTime"
@@ -66,17 +70,18 @@
       </el-table>
     </el-card>
      <el-pagination
-      :page-sizes="[100, 200, 300, 400]"
-      :page-size="100"
+      :current-page="page"
+      @current-change="pageChange"
+      :page-size="5"
       layout="total, prev, pager, next, jumper"
-      :total="400">
+      :total="count">
     </el-pagination>
   </div>
 </template>
 
 <script>
 import { getCategoryList } from '@/api/category'
-import { getArticleList } from '@/api/article'
+import { getArticleList, getFilterArticleList } from '@/api/article'
 export default {
   name: 'ArticleManage',
   data () {
@@ -86,7 +91,10 @@ export default {
         date: ''
       },
       categoryList: [],
-      tableData: []
+      tableData: [],
+      page: 1,
+      perPage: 5,
+      count: 0
     }
   },
   created () {
@@ -97,11 +105,35 @@ export default {
     getCategoryList () {
       getCategoryList().then(res => {
         this.categoryList = res.data
+        this.categoryList.unshift('全部')
       })
     },
-    getArticleList () {
-      getArticleList().then(res => {
-        this.tableData = res.data
+    getArticleList (page = this.page, perPage = this.perPage) {
+      getArticleList({ page, perPage }).then(res => {
+        this.count = res.data.count
+        this.tableData = res.data.data
+      })
+    },
+    pageChange (page) {
+      this.page = page
+      if (this.filterForm.category !== '') {
+        this.filterSearch()
+      } else {
+        this.getArticleList(page)
+      }
+    },
+    filterSearch () {
+      const form = {
+        classifyName: this.filterForm.category,
+        date1: this.filterForm.date[0],
+        date2: this.filterForm.date[1],
+        page: this.page,
+        perPage: this.perPage
+      }
+      getFilterArticleList(form).then(res => {
+        console.log(res)
+        this.tableData = res.data.data
+        this.count = res.data.count
       })
     }
   }
@@ -121,4 +153,7 @@ export default {
   height: 500px;
   margin-bottom: 15px;
 }
+  // .el-table /deep/ .cell {
+  //   padding-right: 0!important;
+  // }
 </style>
