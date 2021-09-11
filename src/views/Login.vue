@@ -16,6 +16,7 @@
 </template>
 
 <script>
+import { Login } from '@/api/login'
 export default {
   name: 'Login',
   data () {
@@ -50,11 +51,14 @@ export default {
       this.loading = true
       this.$refs.loginForm.validate((valid) => {
         if (valid) {
-          this.$message({
-            message: '登录成功！',
-            type: 'success'
+          Login(this.loginForm).then((res) => {
+            this.$store.commit('setInfo', res.data)
+            this.$message({
+              message: '登录成功！',
+              type: 'success'
+            })
+            this.$router.push('/')
           })
-          this.$router.push('/')
         } else {
           this.$message.error('登录失败！')
           return false

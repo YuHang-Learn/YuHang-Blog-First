@@ -8,22 +8,30 @@
     router
     >
     <header-logo class="logo"/>
-    <header-login-button class="btn"/>
+    <header-info v-if="judgeUserInfo" class="info" />
+    <header-login-button v-else class="btn"/>
   </el-menu>
 </template>
 
 <script>
 import HeaderLogo from '@/components/Header/HeaderLogo'
 import HeaderLoginButton from '@/components/Header/HeaderLoginButton'
+import HeaderInfo from '@/components/Header/HeaderInfo'
 export default {
   name: 'HeaderNav',
   components: {
     HeaderLogo,
-    HeaderLoginButton
+    HeaderLoginButton,
+    HeaderInfo
   },
   data () {
     return {
       input: ''
+    }
+  },
+  computed: {
+    judgeUserInfo () {
+      return sessionStorage.getItem('userInfo')
     }
   },
   methods: {
@@ -44,6 +52,10 @@ export default {
   .btn {
     position: absolute;
     top: 10px;
+    right: 350px;
+  }
+   .info {
+    position: absolute;
     right: 350px;
   }
   .el-menu-item:hover{

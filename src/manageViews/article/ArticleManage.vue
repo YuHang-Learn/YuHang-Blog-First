@@ -62,8 +62,8 @@
         <el-table-column
           label="操作"
         >
-          <template>
-            <el-button type="primary" icon="el-icon-edit" circle></el-button>
+          <template slot-scope="scope">
+            <el-button type="primary" icon="el-icon-edit" circle @click="changeArticle(scope.row)"></el-button>
             <el-button type="danger" icon="el-icon-delete" circle></el-button>
           </template>
         </el-table-column>
@@ -110,6 +110,7 @@ export default {
     },
     getArticleList (page = this.page, perPage = this.perPage) {
       getArticleList({ page, perPage }).then(res => {
+        console.log(res)
         this.count = res.data.count
         this.tableData = res.data.data
       })
@@ -135,6 +136,10 @@ export default {
         this.tableData = res.data.data
         this.count = res.data.count
       })
+    },
+    changeArticle (row) {
+      console.log(row)
+      this.$router.push({ name: 'publish', params: { row } })
     }
   }
 }

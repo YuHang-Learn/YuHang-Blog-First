@@ -3,7 +3,7 @@
     <div class="left">
       <div>
         <h2 class="title">{{articleData.article_title}}</h2>
-        <div class="abstract"><a href="#">{{articleData.article_abstract}}</a></div>
+        <div class="abstract"><a href="###">{{articleData.article_abstract}}</a></div>
       </div>
       <div class="left_bottom">
         <div><i class="el-icon-view"></i>&ensp;{{articleData.article_views}}</div>

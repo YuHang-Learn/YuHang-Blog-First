@@ -47,7 +47,6 @@ export default {
     getArticleList () {
       getArticleList({}).then(res => {
         this.articleList = res.data.data
-        console.log(this.articleList)
       })
     }
   }

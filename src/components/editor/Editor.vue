@@ -1,5 +1,8 @@
 <template>
   <editor
+    :initialValue="content"
+    ref='toastuiEditor'
+    @change="onEditorChange"
     :options="editorOptions"
     height="800px"
     initialEditType="markdown"
@@ -16,11 +19,27 @@ export default {
   components: {
     Editor
   },
+  props: {
+    content: {
+      type: String,
+      default: ''
+    }
+  },
   data () {
     return {
       editorOptions: {
         language: 'zh-CN'
-      }
+      },
+      editorText: ''
+    }
+  },
+  created () {
+    this.$refs.toastuiEditor.invoke('setHTML', this.content, true)
+  },
+  methods: {
+    onEditorChange () {
+      this.editorText = this.$refs.toastuiEditor.invoke('getMarkdown')
+      console.log(this.editorText)
     }
   }
 }

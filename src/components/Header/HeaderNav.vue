@@ -15,7 +15,7 @@
       文章分类
       <category-list></category-list>
     </el-menu-item>
-    <el-menu-item index="/personal" @click="pushWrite">写作中心</el-menu-item>
+    <el-menu-item index="/article_manage">写作中心</el-menu-item>
     <el-input
       placeholder="请输入内容"
       v-model="input"
@@ -26,19 +26,22 @@
       >
     </el-input>
     <el-button type="primary" size="small">写文章</el-button>
-    <header-login-button />
+    <header-info v-if="judgeUserInfo" />
+    <header-login-button v-else />
   </el-menu>
 </template>
 
 <script>
 import HeaderLogo from '@/components/Header/HeaderLogo'
 import HeaderLoginButton from '@/components/Header/HeaderLoginButton'
+import HeaderInfo from '@/components/Header/HeaderInfo'
 import CategoryList from '@/components/Header/CategoryList'
 export default {
   name: 'HeaderNav',
   components: {
     HeaderLogo,
     HeaderLoginButton,
+    HeaderInfo,
     CategoryList
   },
   data () {
@@ -46,10 +49,12 @@ export default {
       input: ''
     }
   },
-  methods: {
-    pushWrite () {
-      this.$router.push('/article_manage')
+  computed: {
+    judgeUserInfo () {
+      return this.$store.state.userInfo.user_id
     }
+  },
+  methods: {
   }
 }
 </script>

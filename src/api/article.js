@@ -25,3 +25,14 @@ export function getFilterArticleList ({ classifyName = '全部', date1 = '0', da
     }
   })
 }
+
+export function publishArticle (form, isChange) {
+  return request({
+    url: '/publish',
+    method: 'POST',
+    data: {
+      form,
+      isChange
+    }
+  })
+}
